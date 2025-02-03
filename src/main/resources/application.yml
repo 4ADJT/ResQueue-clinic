@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: resqueue-clinic
+
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: https://eureka.imaginer.com.br/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.imaginer.com.br/realms/resqueue
