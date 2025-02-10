@@ -23,7 +23,6 @@ public class SecurityConfiguration {
     this.jwtProperties = jwtProperties;
   }
 
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -42,6 +41,6 @@ public class SecurityConfiguration {
 
   @Bean
   public JwtDecoder jwtDecoder() {
-    return JwtDecoders.fromIssuerLocation("http://localhost:9000/realms/resqueue");
+    return JwtDecoders.fromIssuerLocation(jwtProperties.getIssuerUri());
   }
 }
