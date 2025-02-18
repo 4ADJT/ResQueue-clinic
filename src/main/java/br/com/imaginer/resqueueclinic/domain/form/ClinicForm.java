@@ -19,6 +19,12 @@ public class ClinicForm {
     @Column(nullable = false)
     private String phone;
 
+    public ClinicForm(String name, String address, String phone) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public @NotBlank(message = "O nome da clínica é obrigatório") String getName() {
         return name;
     }
@@ -30,4 +36,5 @@ public class ClinicForm {
     public String getPhone() {
         return phone;
     }
+
 }
