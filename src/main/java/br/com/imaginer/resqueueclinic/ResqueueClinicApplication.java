@@ -14,13 +14,3 @@ public class ResqueueClinicApplication {
   }
 
 }
-
-@RestController
-@RequestMapping("/hello")
-class HelloController {
-
-  @GetMapping
-  public String hello() {
-    return "Hello World!";
-  }
-}
