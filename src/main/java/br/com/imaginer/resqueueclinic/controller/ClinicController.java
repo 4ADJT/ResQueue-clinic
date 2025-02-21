@@ -52,6 +52,8 @@ public class ClinicController {
 
         if (existUser.isEmpty())
             userService.save(clinic.getUser());
+        else
+            throw new IllegalArgumentException("Esse Usuário já tem uma Clinica cadastrado em seu nome.");
 
         Clinic saveClinic = new Clinic(clinic.getName(),clinic.getAddress(), clinic.getPhone());
         return ResponseEntity.ok(clinicService.save(saveClinic));
