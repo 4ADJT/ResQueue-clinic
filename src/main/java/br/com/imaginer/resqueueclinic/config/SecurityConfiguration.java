@@ -30,6 +30,11 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/eureka/**").permitAll()
             .requestMatchers("/actuator/**").permitAll()
+            .requestMatchers("/users/create").permitAll()
+            .requestMatchers("/auth/login/").permitAll()
+            .requestMatchers("/users/v3/").permitAll()
+            .requestMatchers("/swagger-ui/").permitAll()
+            .requestMatchers("/webjars/").permitAll()
             .anyRequest().authenticated()
         )
         .oauth2ResourceServer(oauth2 ->
@@ -41,6 +46,6 @@ public class SecurityConfiguration {
 
   @Bean
   public JwtDecoder jwtDecoder() {
-    return JwtDecoders.fromIssuerLocation(jwtProperties.getIssuerUri());
+    return JwtDecoders.fromIssuerLocation("");
   }
 }

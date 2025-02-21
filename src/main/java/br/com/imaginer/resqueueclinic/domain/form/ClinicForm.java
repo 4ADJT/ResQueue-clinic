@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@AllArgsConstructor
 public class ClinicForm {
 
     @NotBlank(message = "O nome da clínica é obrigatório")
