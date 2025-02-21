@@ -47,8 +47,7 @@ public class ClinicController {
     @PostMapping
     @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Clinic> createClinic(@Valid @RequestBody ClinicForm clinic) {
-
-        Optional<User> existUser = userService.findById(clinic.getUser().getId());
+        Optional<User> existUser = userService.findById(clinic.getUser().id());
 
         if (existUser.isEmpty())
             userService.save(clinic.getUser());
