@@ -2,7 +2,9 @@ package br.com.imaginer.resqueueclinic.controller;
 
 import br.com.imaginer.resqueueclinic.domain.form.ClinicForm;
 import br.com.imaginer.resqueueclinic.domain.model.Clinic;
+import br.com.imaginer.resqueueclinic.domain.model.User;
 import br.com.imaginer.resqueueclinic.service.ClinicService;
+import br.com.imaginer.resqueueclinic.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -17,9 +20,11 @@ import java.util.UUID;
 public class ClinicController {
 
     private final ClinicService clinicService;
+    private final UserService userService;
 
-    public ClinicController(ClinicService clinicService) {
+    public ClinicController(ClinicService clinicService, UserService userService) {
         this.clinicService = clinicService;
+        this.userService = userService;
     }
 
 
@@ -42,6 +47,12 @@ public class ClinicController {
     @PostMapping
     @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Clinic> createClinic(@Valid @RequestBody ClinicForm clinic) {
+
+        Optional<User> existUser = userService.findById(clinic.getUser().getId());
+
+        if (existUser.isEmpty())
+            userService.save(clinic.getUser());
+
         Clinic saveClinic = new Clinic(clinic.getName(),clinic.getAddress(), clinic.getPhone());
         return ResponseEntity.ok(clinicService.save(saveClinic));
     }
