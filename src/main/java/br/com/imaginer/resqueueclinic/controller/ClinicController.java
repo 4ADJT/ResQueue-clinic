@@ -8,6 +8,7 @@ import br.com.imaginer.resqueueclinic.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/clinics")
 public class ClinicController {
@@ -32,13 +34,17 @@ public class ClinicController {
     @GetMapping
     @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<List<Clinic>> getAllClinics(@PathVariable UUID idUser) {
+
+        log.info(idUser.toString());
         return ResponseEntity.ok(clinicService.findAll());
     }
 
 //    Buscas as clinicas pelo id e com o idUser
     @GetMapping("/{id}")
     @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
-    public ResponseEntity<Clinic> getClinicById(@PathVariable Long id, @PathVariable UUID idUser) {
+    public ResponseEntity<Clinic> getClinicById(@PathVariable Long id, UUID idUser) {
+
+        log.info(idUser.toString());
         return clinicService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

@@ -24,25 +24,25 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   jpa:
-    hibernate:
-      ddl-auto: update
+    database: postgresql
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   flyway:
     baseline-on-migrate: true
     enabled: true
 
-  springdoc:
-    api-docs:
-      enabled: true
-      path: /clinic/v3/api-docs
-    swagger-ui:
-      enabled: true
-      path: /docs
-      config-url: /clinic/v3/api-docs/swagger-config
-      urls:
-        - name: clinic-service
-          url: /clinic/v3/api-docs
+springdoc:
+  api-docs:
+    enabled: true
+    path: /clinic/v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /docs
+    config-url: /clinic/v3/api-docs/swagger-config
+    urls:
+      - name: clinic-service
+        url: /clinic/v3/api-docs

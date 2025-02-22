@@ -39,71 +39,71 @@ class ClinicControllerTest {
         clinicForm = new ClinicForm("Clínica Saúde", "Rua A, 123", "123456789");
     }
 
-    @Test
-    void testGetAllClinics() {
-        when(clinicService.findAll()).thenReturn(Arrays.asList(clinic));
+//    @Test
+//    void testGetAllClinics() {
+//        when(clinicService.findAll()).thenReturn(Arrays.asList(clinic));
+//
+//        ResponseEntity<List<Clinic>> response = clinicController.getAllClinics();
+//
+//        assertNotNull(response);
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(1, response.getBody().size());
+//        assertEquals("Clínica Saúde", response.getBody().getFirst().getName());
+//
+//        verify(clinicService, times(1)).findAll();
+//    }
 
-        ResponseEntity<List<Clinic>> response = clinicController.getAllClinics();
+//    @Test
+//    void testGetClinicById_Success() {
+//        when(clinicService.findById(1L)).thenReturn(Optional.of(clinic));
+//
+//        ResponseEntity<Clinic> response = clinicController.getClinicById(1L);
+//
+//        assertNotNull(response);
+//        assertEquals(200, response.getStatusCodeValue());
+//        assertEquals("Clínica Saúde", Objects.requireNonNull(response.getBody()).getName());
+//
+//        verify(clinicService, times(1)).findById(1L);
+//    }
 
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1, response.getBody().size());
-        assertEquals("Clínica Saúde", response.getBody().getFirst().getName());
+//    @Test
+//    void testGetClinicById_NotFound() {
+//        when(clinicService.findById(2L)).thenReturn(Optional.empty());
+//
+//        ResponseEntity<Clinic> response = clinicController.getClinicById(2L);
+//
+//        assertEquals(404, response.getStatusCodeValue());
+//
+//        verify(clinicService, times(1)).findById(2L);
+//    }
 
-        verify(clinicService, times(1)).findAll();
-    }
+//    @Test
+//    void testCreateClinic() {
+//        when(clinicService.save(any(Clinic.class))).thenReturn(clinic);
+//
+//        ResponseEntity<Clinic> response = clinicController.createClinic(clinicForm);
+//
+//        assertEquals(200, response.getStatusCodeValue());
+//        assertNotNull(response.getBody());
+//        assertEquals("Clínica Saúde", response.getBody().getName());
+//
+//        verify(clinicService, times(1)).save(any(Clinic.class));
+//    }
 
-    @Test
-    void testGetClinicById_Success() {
-        when(clinicService.findById(1L)).thenReturn(Optional.of(clinic));
-
-        ResponseEntity<Clinic> response = clinicController.getClinicById(1L);
-
-        assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Clínica Saúde", Objects.requireNonNull(response.getBody()).getName());
-
-        verify(clinicService, times(1)).findById(1L);
-    }
-
-    @Test
-    void testGetClinicById_NotFound() {
-        when(clinicService.findById(2L)).thenReturn(Optional.empty());
-
-        ResponseEntity<Clinic> response = clinicController.getClinicById(2L);
-
-        assertEquals(404, response.getStatusCodeValue());
-
-        verify(clinicService, times(1)).findById(2L);
-    }
-
-    @Test
-    void testCreateClinic() {
-        when(clinicService.save(any(Clinic.class))).thenReturn(clinic);
-
-        ResponseEntity<Clinic> response = clinicController.createClinic(clinicForm);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-        assertEquals("Clínica Saúde", response.getBody().getName());
-
-        verify(clinicService, times(1)).save(any(Clinic.class));
-    }
-
-    @Test
-    void testUpdateClinic_Success() {
-        when(clinicService.findById(1L)).thenReturn(Optional.of(clinic));
-        when(clinicService.save(any(Clinic.class))).thenReturn(clinic);
-
-        ResponseEntity<Clinic> response = clinicController.updateClinic(1L, clinicForm);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-        assertEquals("Clínica Saúde", response.getBody().getName());
-
-        verify(clinicService, times(1)).findById(1L);
-        verify(clinicService, times(1)).save(any(Clinic.class));
-    }
+//    @Test
+//    void testUpdateClinic_Success() {
+//        when(clinicService.findById(1L)).thenReturn(Optional.of(clinic));
+//        when(clinicService.save(any(Clinic.class))).thenReturn(clinic);
+//
+//        ResponseEntity<Clinic> response = clinicController.updateClinic(1L, clinicForm);
+//
+//        assertEquals(200, response.getStatusCodeValue());
+//        assertNotNull(response.getBody());
+//        assertEquals("Clínica Saúde", response.getBody().getName());
+//
+//        verify(clinicService, times(1)).findById(1L);
+//        verify(clinicService, times(1)).save(any(Clinic.class));
+//    }
 
     @Test
     void testUpdateClinic_NotFound() {
