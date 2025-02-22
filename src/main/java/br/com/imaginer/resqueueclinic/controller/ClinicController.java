@@ -31,18 +31,15 @@ public class ClinicController {
 
     @GetMapping
     @Operation(description = "Busca todas as clínicas cadastradas pelo usuário especificado.", security = { @SecurityRequirement(name = "bearer-key") })
-    public ResponseEntity<List<Clinic>> getAllClinics(@PathVariable UUID idUser) {
-
-        log.info(idUser.toString());
-        return ResponseEntity.ok(clinicService.findAll());
+    public ResponseEntity<List<Clinic>> getAllClinics(@PathVariable UUID userId) {
+        return ResponseEntity.ok(clinicService.findAllByUserId(userId));
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "Busca uma clínica específica pelo ID e pelo ID do usuário.", security = { @SecurityRequirement(name = "bearer-key") })
-    public ResponseEntity<Clinic> getClinicById(@PathVariable Long id, UUID idUser) {
+    @Operation(description = "Busca uma clínica específica pelo ID da clinica e pelo ID do usuário.", security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<Clinic> getClinicById(@PathVariable Long clinicId, @PathVariable UUID userId) {
 
-        log.info(idUser.toString());
-        return clinicService.findById(id)
+        return clinicService.findByIdAndUserId(clinicId, userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -57,26 +54,37 @@ public class ClinicController {
         else
             throw new IllegalArgumentException("Esse Usuário já tem uma Clinica cadastrado em seu nome.");
 
-        Clinic saveClinic = new Clinic(clinic.getName(),clinic.getAddress(), clinic.getPhone());
+        Clinic saveClinic = new Clinic(clinic.getName(),clinic.getAddress(), clinic.getPhone(), clinic.getUser());
         return ResponseEntity.ok(clinicService.save(saveClinic));
     }
 
-    @PutMapping("/{id}")
-    @Operation(description = "Atualiza os dados de uma clínica existente com base no ID fornecido.", security = { @SecurityRequirement(name = "bearer-key") })
-    public ResponseEntity<Clinic> updateClinic(@PathVariable Long id, @Valid @RequestBody ClinicForm updatedClinic) {
-        Clinic updateClinic = new Clinic(updatedClinic.getName(),updatedClinic.getAddress(), updatedClinic.getPhone());
-        return clinicService.findById(id)
-                .map(existingClinic -> ResponseEntity.ok(clinicService.save(updateClinic)))
+    @PutMapping("/{clinicId}/user/{userId}")
+    @Operation(description = "Atualiza os dados de uma clínica existente com base no ID da clínica e do usuário.", security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<Clinic> updateClinic(
+            @PathVariable Long clinicId,
+            @PathVariable UUID userId,
+            @Valid @RequestBody ClinicForm updatedClinic) {
+
+        return clinicService.findByIdAndUserId(clinicId, userId)
+                .map(existingClinic -> {
+                    existingClinic.setName(updatedClinic.getName());
+                    existingClinic.setAddress(updatedClinic.getAddress());
+                    existingClinic.setPhone(updatedClinic.getPhone());
+
+                    Clinic savedClinic = clinicService.save(existingClinic);
+                    return ResponseEntity.ok(savedClinic);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(description = "Deleta uma clínica pelo ID, se ela existir no sistema.", security = { @SecurityRequirement(name = "bearer-key") })
-    public ResponseEntity<Void> deleteClinic(@PathVariable Long id) {
-        if (clinicService.findById(id).isPresent()) {
-            clinicService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @DeleteMapping("/{clinicId}/user/{userId}")
+    @Operation(description = "Deleta uma clínica pelo ID, e remove o usuário associado se existir.", security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<Object> deleteClinic(@PathVariable Long clinicId, @PathVariable UUID userId) {
+        return clinicService.findByIdAndUserId(clinicId, userId)
+                .map(clinic -> {
+                    clinicService.deleteById(clinicId);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }
