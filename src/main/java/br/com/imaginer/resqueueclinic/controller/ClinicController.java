@@ -29,19 +29,16 @@ public class ClinicController {
         this.userService = userService;
     }
 
-
-//    Buscar as clinicas que apenas o cliente cadastrou
     @GetMapping
-    @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(description = "Busca todas as clínicas cadastradas pelo usuário especificado.", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<List<Clinic>> getAllClinics(@PathVariable UUID idUser) {
 
         log.info(idUser.toString());
         return ResponseEntity.ok(clinicService.findAll());
     }
 
-//    Buscas as clinicas pelo id e com o idUser
     @GetMapping("/{id}")
-    @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(description = "Busca uma clínica específica pelo ID e pelo ID do usuário.", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Clinic> getClinicById(@PathVariable Long id, UUID idUser) {
 
         log.info(idUser.toString());
@@ -51,7 +48,7 @@ public class ClinicController {
     }
 
     @PostMapping
-    @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(description = "Cria uma nova clínica associada a um usuário, garantindo que um usuário não tenha mais de uma clínica cadastrada.", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Clinic> createClinic(@Valid @RequestBody ClinicForm clinic) {
         Optional<User> existUser = userService.findById(clinic.getUser().id());
 
@@ -65,7 +62,7 @@ public class ClinicController {
     }
 
     @PutMapping("/{id}")
-    @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(description = "Atualiza os dados de uma clínica existente com base no ID fornecido.", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Clinic> updateClinic(@PathVariable Long id, @Valid @RequestBody ClinicForm updatedClinic) {
         Clinic updateClinic = new Clinic(updatedClinic.getName(),updatedClinic.getAddress(), updatedClinic.getPhone());
         return clinicService.findById(id)
@@ -74,7 +71,7 @@ public class ClinicController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "#######", security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(description = "Deleta uma clínica pelo ID, se ela existir no sistema.", security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Void> deleteClinic(@PathVariable Long id) {
         if (clinicService.findById(id).isPresent()) {
             clinicService.deleteById(id);
