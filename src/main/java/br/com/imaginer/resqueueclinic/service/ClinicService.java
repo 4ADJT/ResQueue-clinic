@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ClinicService {
@@ -16,19 +17,17 @@ public class ClinicService {
         this.clinicRepository = clinicRepository;
     }
 
-    public List<Clinic> findAll() {
-        return clinicRepository.findAll();
-    }
-
-    public Optional<Clinic> findById(Long id) {
-        return clinicRepository.findById(id);
+    public Optional<Clinic> findByIdAndUserId(Long clinicId, UUID userId) {
+        return clinicRepository.findByIdAndUserId(clinicId, userId);
     }
 
     public Clinic save(Clinic clinic) {
         return clinicRepository.save(clinic);
     }
 
-    public void deleteById(Long id) {
-        clinicRepository.deleteById(id);
+    public void deleteById(Long clinicId) {
+        clinicRepository.findById(clinicId).ifPresent(clinicRepository::delete);
     }
+
+    public List<Clinic> findAllByUserId(UUID userId) { return clinicRepository.findByUserId(userId); };
 }
