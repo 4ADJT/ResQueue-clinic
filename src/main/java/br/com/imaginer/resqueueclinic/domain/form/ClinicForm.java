@@ -18,7 +18,8 @@ public class ClinicForm {
     @Column(nullable = false)
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public ClinicForm(String name, String address, String phone) {
