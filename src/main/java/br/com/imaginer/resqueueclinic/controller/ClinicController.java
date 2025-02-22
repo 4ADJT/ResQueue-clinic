@@ -28,20 +28,11 @@ public class ClinicController {
     }
 
     @GetMapping
-    @Operation(description = "Busca todas as clínicas cadastradas pelo usuário especificado.", security = {@SecurityRequirement(name = "bearer-key")})
-    public ResponseEntity<List<Clinic>> getAllClinics(@AuthenticationPrincipal Jwt jwt) {
+    @Operation(description = "Busca a clínicas cadastrado pelo usuário especificado.", security = {@SecurityRequirement(name = "bearer-key")})
+    public ResponseEntity<List<Clinic>> getClinicsByUser(@AuthenticationPrincipal Jwt jwt) {
         UUID userId = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(clinicService.findAllByUserId(userId));
     }
-
-    /*@GetMapping("/{clinicId}/user/{userId}")
-    @Operation(description = "Busca uma clínica específica pelo ID da clínica e pelo ID do usuário.", security = {@SecurityRequirement(name = "bearer-key")})
-    public ResponseEntity<Clinic> getClinicById(@PathVariable Long clinicId, @AuthenticationPrincipal Jwt jwt) {
-        UUID userId = UUID.fromString(jwt.getSubject());
-        return clinicService.findByIdAndUserId(clinicId, userId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }*/
 
     @PostMapping
     @Operation(description = "Cria uma nova clínica associada a um usuário.", security = {@SecurityRequirement(name = "bearer-key")})
