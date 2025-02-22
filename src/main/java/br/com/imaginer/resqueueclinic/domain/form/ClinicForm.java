@@ -20,6 +20,12 @@ public class ClinicForm {
         this.user = user;
     }
 
+    public ClinicForm(String name, String address, String phone) {
+        this.name =name;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public String getName() {
         return name;
     }
