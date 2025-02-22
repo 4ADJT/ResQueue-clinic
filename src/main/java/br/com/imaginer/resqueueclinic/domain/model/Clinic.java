@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 public class Clinic {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "O nome da clínica é obrigatório")
@@ -20,7 +20,7 @@ public class Clinic {
     @Column(nullable = false)
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

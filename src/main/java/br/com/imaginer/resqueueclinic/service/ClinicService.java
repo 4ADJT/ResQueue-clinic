@@ -3,6 +3,7 @@ package br.com.imaginer.resqueueclinic.service;
 import br.com.imaginer.resqueueclinic.domain.form.ClinicForm;
 import br.com.imaginer.resqueueclinic.domain.model.Clinic;
 import br.com.imaginer.resqueueclinic.domain.model.User;
+import br.com.imaginer.resqueueclinic.handler.exceptions.HandlerException;
 import br.com.imaginer.resqueueclinic.repository.ClinicRepository;
 import br.com.imaginer.resqueueclinic.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,11 @@ public class ClinicService {
     }
 
     public List<Clinic> findAllByUserId(UUID userId) {
-        return clinicRepository.findByUserId(userId);
+        try {
+            return clinicRepository.findByUserId(userId);
+        } catch (Exception e) {
+            throw new HandlerException("Usuário não possui uma clinica cadastrada.");
+        }
     }
 
     public Optional<Clinic> findByIdAndUserId(Long clinicId, UUID userId) {
@@ -33,10 +38,11 @@ public class ClinicService {
 
     @Transactional
     public Clinic createClinic(ClinicForm clinicForm) {
-        Optional<User> existingUser = userRepository.findById(clinicForm.getUser().id());
+        UUID id = clinicForm.getUser().getId();
+        Optional<User> existingUser = userRepository.findById(id);
 
         if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("Esse Usuário já tem uma Clínica cadastrada em seu nome.");
+            throw new HandlerException("Esse Usuário já tem uma Clínica cadastrada em seu nome.");
         }
 
         User savedUser = userRepository.save(clinicForm.getUser());
