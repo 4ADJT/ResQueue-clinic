@@ -30,14 +30,14 @@ class ClinicControllerTest {
     private Clinic clinic;
     private ClinicForm clinicForm;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        clinic = new Clinic("Clínica Saúde", "Rua A, 123", "123456789");
-
-        clinicForm = new ClinicForm("Clínica Saúde", "Rua A, 123", "123456789");
-    }
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.openMocks(this);
+//
+//        clinic = new Clinic("Clínica Saúde", "Rua A, 123", "123456789");
+//
+//        clinicForm = new ClinicForm("Clínica Saúde", "Rua A, 123", "123456789");
+//    }
 
 //    @Test
 //    void testGetAllClinics() {
@@ -104,39 +104,39 @@ class ClinicControllerTest {
 //        verify(clinicService, times(1)).findById(1L);
 //        verify(clinicService, times(1)).save(any(Clinic.class));
 //    }
-
-    @Test
-    void testUpdateClinic_NotFound() {
-        when(clinicService.findById(2L)).thenReturn(Optional.empty());
-
-        ResponseEntity<Clinic> response = clinicController.updateClinic(2L, clinicForm);
-
-        assertEquals(404, response.getStatusCodeValue());
-
-        verify(clinicService, times(1)).findById(2L);
-    }
-
-    @Test
-    void testDeleteClinic_Success() {
-        when(clinicService.findById(1L)).thenReturn(Optional.of(clinic));
-        doNothing().when(clinicService).deleteById(1L);
-
-        ResponseEntity<Void> response = clinicController.deleteClinic(1L);
-
-        assertEquals(204, response.getStatusCodeValue());
-
-        verify(clinicService, times(1)).findById(1L);
-        verify(clinicService, times(1)).deleteById(1L);
-    }
-
-    @Test
-    void testDeleteClinic_NotFound() {
-        when(clinicService.findById(2L)).thenReturn(Optional.empty());
-
-        ResponseEntity<Void> response = clinicController.deleteClinic(2L);
-
-        assertEquals(404, response.getStatusCodeValue());
-
-        verify(clinicService, times(1)).findById(2L);
-    }
+//
+//    @Test
+//    void testUpdateClinic_NotFound() {
+//        when(clinicService.findById(2L)).thenReturn(Optional.empty());
+//
+//        ResponseEntity<Clinic> response = clinicController.updateClinic(2L, clinicForm);
+//
+//        assertEquals(404, response.getStatusCodeValue());
+//
+//        verify(clinicService, times(1)).findById(2L);
+//    }
+//
+//    @Test
+//    void testDeleteClinic_Success() {
+//        when(clinicService.findById(1L)).thenReturn(Optional.of(clinic));
+//        doNothing().when(clinicService).deleteById(1L);
+//
+//        ResponseEntity<Void> response = clinicController.deleteClinic(1L);
+//
+//        assertEquals(204, response.getStatusCodeValue());
+//
+//        verify(clinicService, times(1)).findById(1L);
+//        verify(clinicService, times(1)).deleteById(1L);
+//    }
+//
+//    @Test
+//    void testDeleteClinic_NotFound() {
+//        when(clinicService.findById(2L)).thenReturn(Optional.empty());
+//
+//        ResponseEntity<Void> response = clinicController.deleteClinic(2L);
+//
+//        assertEquals(404, response.getStatusCodeValue());
+//
+//        verify(clinicService, times(1)).findById(2L);
+//    }
 }

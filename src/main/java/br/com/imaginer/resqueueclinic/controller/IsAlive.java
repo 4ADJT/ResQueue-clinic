@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/isAlive")
+@RequestMapping("/clinic")
 public class IsAlive {
 
-    @GetMapping
+    @GetMapping("/isAlive")
     public boolean isAlive() {
         return true;
     }
