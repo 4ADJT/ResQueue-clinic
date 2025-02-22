@@ -20,11 +20,12 @@ public class Clinic {
     @Column(nullable = false)
     private String phone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Clinic() {}
+    public Clinic() {
+    }
 
     public Clinic(String name, String address, String phone, User user) {
         this.name = name;
@@ -33,14 +34,39 @@ public class Clinic {
         this.user = user;
     }
 
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getAddress() { return address; }
-    public String getPhone() { return phone; }
-    public User getUser() { return user; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setName(String name) { this.name = name; }
-    public void setAddress(String address) { this.address = address; }
-    public void setPhone(String phone) { this.phone = phone; }
-    public void setUser(User user) { this.user = user; }
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -53,21 +53,27 @@ public class ClinicService {
 
     @Transactional
     public Optional<Clinic> updateClinic(Long clinicId, UUID userId, ClinicForm updatedClinic) {
-        return clinicRepository.findByIdAndUserId(clinicId, userId).map(existingClinic -> {
+
+        Optional<Clinic> byIdAndUserId = clinicRepository.findByIdAndUserId(clinicId, userId).map(existingClinic -> {
             existingClinic.setName(updatedClinic.getName());
             existingClinic.setAddress(updatedClinic.getAddress());
             existingClinic.setPhone(updatedClinic.getPhone());
             return clinicRepository.save(existingClinic);
         });
+
+        if (byIdAndUserId.isPresent()) {
+            return byIdAndUserId;
+        }
+        throw new HandlerException("Id da clinica não localizado.");
     }
 
     @Transactional
-    public boolean deleteClinic(Long clinicId, UUID userId) {
+    public void deleteClinic(Long clinicId, UUID userId) {
         Optional<Clinic> clinic = clinicRepository.findByIdAndUserId(clinicId, userId);
         if (clinic.isPresent()) {
             clinicRepository.delete(clinic.get());
-            return true;
+        } else {
+            throw new HandlerException("Id da clinica não localizado.");
         }
-        return false;
     }
 }

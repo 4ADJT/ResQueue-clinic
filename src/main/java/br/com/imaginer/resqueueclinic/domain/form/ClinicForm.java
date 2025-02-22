@@ -2,37 +2,29 @@ package br.com.imaginer.resqueueclinic.domain.form;
 
 
 import br.com.imaginer.resqueueclinic.domain.model.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 public class ClinicForm {
 
-    @NotBlank(message = "O nome da clínica é obrigatório")
     private String name;
 
-    @NotBlank(message = "O endereço é obrigatório")
     private String address;
 
-    @Column(nullable = false)
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public ClinicForm(String name, String address, String phone) {
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
+    public ClinicForm(ClinicFormSimple clinicForm, User user) {
+        this.name = clinicForm.getName();
+        this.address = clinicForm.getAddress();
+        this.phone = clinicForm.getPhone();
+        this.user = user;
     }
 
-    public @NotBlank(message = "O nome da clínica é obrigatório") String getName() {
+    public String getName() {
         return name;
     }
 
-    public @NotBlank(message = "O endereço é obrigatório") String getAddress() {
+    public String getAddress() {
         return address;
     }
 
@@ -44,7 +36,4 @@ public class ClinicForm {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
