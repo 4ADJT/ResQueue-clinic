@@ -10,7 +10,7 @@ eureka:
 
 spring:
   application:
-    name: resqueue-clinic
+    name: RESQUEUE-CLINIC
 
   security:
     oauth2:
