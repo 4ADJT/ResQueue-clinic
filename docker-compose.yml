@@ -12,30 +12,33 @@ services:
     volumes:
       - postgres_data_clinic:/var/lib/postgresql/data
     networks:
-      - resqueue_network
+      - clinic_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d resqueue_clinic"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
-#  postgres_vaccine:
-#    image: postgres:latest
-#    container_name: resqueue_pg_vaccine
-#    restart: always
-#    environment:
-#      POSTGRES_USER: admin
-#      POSTGRES_PASSWORD: admin
-#      POSTGRES_DB: resqueue_vaccine
-#    ports:
-#      - "5433:5432"
-#    volumes:
-#      - postgres_data_vaccine:/var/lib/postgresql/data
-#    networks:
-#      - resqueue_network
+  app:
+    container_name: resqueue_clinic_app
+    network_mode: host
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    environment:
+      DATABASE_URL: jdbc:postgresql://localhost:5432/resqueue_clinic
+      DATABASE_USERNAME: admin
+      DATABASE_PASSWORD: admin
+    depends_on:
+      postgres_clinic:
+        condition: service_healthy
 
 volumes:
   postgres_data_clinic:
     name: postgres_data_clinic
-#  postgres_data_vaccine:
-#    name: postgres_data_vaccine
 
 networks:
-  resqueue_network:
-    name: resqueue_network
+  clinic_network:
     driver: bridge
