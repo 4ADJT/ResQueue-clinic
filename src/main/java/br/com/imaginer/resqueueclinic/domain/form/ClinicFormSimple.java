@@ -2,7 +2,11 @@ package br.com.imaginer.resqueueclinic.domain.form;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class ClinicFormSimple {
 
     @NotBlank(message = "O nome da clínica é obrigatório")
@@ -11,6 +15,7 @@ public class ClinicFormSimple {
     @NotBlank(message = "O endereço é obrigatório")
     private String address;
 
+    @Getter
     @Column(nullable = false)
     private String phone;
 
@@ -26,10 +31,6 @@ public class ClinicFormSimple {
 
     public @NotBlank(message = "O endereço é obrigatório") String getAddress() {
         return address;
-    }
-
-    public String getPhone() {
-        return phone;
     }
 
 }
