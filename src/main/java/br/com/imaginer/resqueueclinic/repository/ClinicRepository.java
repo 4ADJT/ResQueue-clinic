@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ClinicRepository extends JpaRepository<Clinic, Long> {
+public interface ClinicRepository extends JpaRepository<Clinic, UUID> {
     List<Clinic> findByUserId(UUID userId);
 
-    Optional<Clinic> findByIdAndUserId(Long id, UUID userId);
+    Optional<Clinic> findByIdAndUserId(UUID id, UUID userId);
 }
