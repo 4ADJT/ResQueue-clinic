@@ -93,7 +93,7 @@ public class ClinicService {
       throw new HandlerException("Id da clinica não localizado.");
     }
 
-    edge.updateClinic(clinic.get().getId(), false);
+    edge.deactivateClinic(clinic.get().getId());
     clinicRepository.delete(clinic.get());
 
   }

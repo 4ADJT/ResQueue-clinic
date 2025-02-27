@@ -15,9 +15,8 @@ public interface ClinicToVaccineEdge {
       @RequestBody ClinicRequestToVaccineService clinic
   );
 
-  @PutMapping("/vaccine/clinic/update/{clinicId}")
-  ResponseEntity<ClinicResponseToVaccineService> updateClinic(
-      @PathVariable("clinicId") UUID clinicId,
-      @RequestParam("status") boolean status
+  @PutMapping("/vaccine/clinic/deactivate/{clinicId}")
+  ResponseEntity<ClinicResponseToVaccineService> deactivateClinic(
+      @PathVariable("clinicId") UUID clinicId
   );
 }
