@@ -2,7 +2,7 @@ services:
   postgres_clinic:
     image: postgres:latest
     container_name: resqueue_pg_clinic
-    restart: always
+    restart: on-failure
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
